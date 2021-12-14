@@ -1,34 +1,31 @@
 <template>
   <div id="app">
     <!-- Navigation component -->
-    <nav class="c-nav">
-      <ul class="c-nav-list">
-        <li class="c-nav-list-item active">
-          Home
-        </li>
-
-        <li class="c-nav-list-item">
-          Voting
-        </li>
-      </ul>
-    </nav>
+    <Navigation />
 
     <!-- Alerts -->
-    <div class="c-alert">
-      Woops something went wrong
-    </div>
+    <Button
+      buttonText="Add warning alert"
+      alertType="warning"
+      alertMessage="Warning warning"
 
-    <div class="c-alert warning">
-      Warning warning, you should pay attention
-    </div>
+      @add-message="addAlert"
+    />
 
-    <div class="c-alert succes">
-      Great Success
-    </div>
+    <Button
+      buttonText="Add error alert"
+      alertType="error"
+      alertMessage="Omg an error occured"
 
-    <div class="c-alert neutral">
-      Great Success
-    </div>
+      @handle-clicked="addAlert"
+    />
+    
+    <Alert
+      v-for="(error, index) in errors"
+      :key="index"
+      :message="error.message"
+      :customClasses="error.customClasses"
+    />
 
     <!-- Main content -->
     <h1>
@@ -43,13 +40,35 @@
 </template>
 
 <script>
-  import HelloWorld from './components/HelloWorld.vue'
+  // Components
+  import Navigation from "./components/Navigation.vue";
+  import Alert from "./components/Alert.vue";
+  import Button from "./components/Button.vue";
+
+  // Scss
   import style from "./scss/style.scss";
 
+  // Export
   export default {
     name: 'App',
+    data() {
+      return {
+        errors: [
+        ],
+      }
+    },
     components: {
-      HelloWorld
+      Navigation,
+      Alert,
+      Button
+    },
+    methods: {
+      addAlert(message, type) {
+        this.errors.push({
+            message: message,
+            customClasses: type
+          });
+      }
     }
   }
 </script>
