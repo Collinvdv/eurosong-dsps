@@ -75,8 +75,22 @@
             })
 
             // post vote to the api
-            console.log(this.votes);
-
+            const songID = this.songs[this.activeSongIndex].id;
+            fetch("http://webservies.be/eurosong/Votes", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type': 'application/json;charset=UTF-8'
+                },
+                body: JSON.stringify({
+                    songID: songID,
+                    points: points
+                })
+            }).then((response) => {
+                return response.json()
+            }).then((answer) => {
+                console.log(answer);
+            });
         },
 
         // fetch
