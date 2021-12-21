@@ -76,6 +76,7 @@
 
             // post vote to the api
             const songID = this.songs[this.activeSongIndex].id;
+
             fetch("http://webservies.be/eurosong/Votes", {
                 method: "POST",
                 headers: {
