@@ -4,17 +4,23 @@
         Go back to home
         </button>
 
-        <Carousel 
-        :songs="songs"
-        :activeSongIndex="activeSongIndex"
+        <div v-if="!endOfGame">
+            <Carousel 
+            :songs="songs"
+            :activeSongIndex="activeSongIndex"
 
-        @change-song-index="changeActiveSongIndex"
-        />
+            @change-song-index="changeActiveSongIndex"
+            />
 
-        <div v-for="(vote, index) in votes" :key="index">
-            <button v-if="!vote.isVoted" @click="sendVote(vote.points)">
-                Add {{vote.points}}
-            </button>
+            <div v-for="(vote, index) in votes" :key="index">
+                <button v-if="!vote.isVoted" @click="sendVote(vote.points)">
+                    Add {{vote.points}}
+                </button>
+            </div>
+        </div>
+
+        <div v-if="endOfGame">
+            You voted everything
         </div>
     </div>
 </template>
@@ -33,6 +39,7 @@
         return {
             songs: [],
             activeSongIndex: 0,
+            endOfGame: false,
             votes: [
                 {
                     points: 1,
@@ -92,6 +99,26 @@
             }).then((answer) => {
                 console.log(answer);
             });
+
+            // check the game is done
+            const activeVotes = this.votes.filter((vote) => !vote.isVoted);
+
+            if (activeVotes.length == 0) {
+                this.endOfGame = true;
+            }
+
+            // es5 way
+            // let endOfGame = true;
+
+            // for (let i = 0; i < this.votes.length; i++) {
+            //     if (this.votes[i].isVoted == false) {
+            //         endOfGame = false;
+            //     }
+            // }
+
+            // if (endOfGame) {
+            //     alert("game is done");
+            // }
         },
 
         // fetch
