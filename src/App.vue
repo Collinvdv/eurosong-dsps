@@ -1,49 +1,33 @@
 <template>
   <div id="app">
-    <!-- Navigation component -->
-    <Navigation />
+    <!-- Page home -->
+    <PageHome
+      v-if="page == 'home'"
 
-    <!-- Alerts -->
-    <Button
-      buttonText="Add warning alert"
-      alertType="warning"
-      alertMessage="Warning warning"
-
-      @add-message="addAlert"
+      @change-page="changePage"
     />
 
-    <Button
-      buttonText="Add error alert"
-      alertType="error"
-      alertMessage="Omg an error occured"
+    <!-- Page game -->
+    <PageGame
+      v-if="page == 'game'"
 
-      @handle-clicked="addAlert"
-    />
-    
-    <Alert
-      v-for="(error, index) in errors"
-      :key="index"
-      :message="error.message"
-      :customClasses="error.customClasses"
+      @change-page="changePage"
     />
 
-    <!-- Main content -->
-    <h1>
-      Eurosong festival
-    </h1>
+    <!-- Page ranking -->
+    <PageRanking
+      v-if="page == 'ranking'"
 
-    <p>
-      This is our voting application
-    </p>
-
+      @change-page="changePage"
+    />
   </div>
 </template>
 
 <script>
   // Components
-  import Navigation from "./components/Navigation.vue";
-  import Alert from "./components/Alert.vue";
-  import Button from "./components/Button.vue";
+  import PageHome from "./pages/PageHome.vue";
+  import PageRanking from "./pages/PageRanking.vue";
+  import PageGame from "./pages/PageGame.vue";
 
   // Scss
   import style from "./scss/style.scss";
@@ -53,21 +37,17 @@
     name: 'App',
     data() {
       return {
-        errors: [
-        ],
+        page: "game"
       }
     },
     components: {
-      Navigation,
-      Alert,
-      Button
+      PageHome,
+      PageRanking,
+      PageGame
     },
     methods: {
-      addAlert(message, type) {
-        this.errors.push({
-            message: message,
-            customClasses: type
-          });
+      changePage(page) {
+        this.page = page;
       }
     }
   }
